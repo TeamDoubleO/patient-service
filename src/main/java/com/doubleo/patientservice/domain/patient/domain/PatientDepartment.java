@@ -1,9 +1,10 @@
-package com.doubleo.patientservice.domain.department.domain;
+package com.doubleo.patientservice.domain.patient.domain;
 
 import com.doubleo.patientservice.domain.model.BaseTimeEntity;
-import com.doubleo.patientservice.domain.patient.domain.Patient;
 import jakarta.persistence.*;
 import lombok.Getter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Getter
@@ -26,5 +27,6 @@ public class PatientDepartment extends BaseTimeEntity {
 
     @JoinColumn(name = "patient_id")
     @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Patient patient;
 }

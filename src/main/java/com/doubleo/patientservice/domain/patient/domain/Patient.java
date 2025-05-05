@@ -1,11 +1,8 @@
 package com.doubleo.patientservice.domain.patient.domain;
 
-import com.doubleo.patientservice.domain.department.domain.PatientDepartment;
 import com.doubleo.patientservice.domain.model.BaseTimeEntity;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -44,11 +41,4 @@ public class Patient extends BaseTimeEntity {
 
     @Column(name = "patient_admission_area", nullable = false)
     private Long admissionArea;
-
-    @OneToMany(
-            mappedBy = "patient",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            fetch = FetchType.LAZY)
-    private List<PatientDepartment> department = new ArrayList<>();
 }
