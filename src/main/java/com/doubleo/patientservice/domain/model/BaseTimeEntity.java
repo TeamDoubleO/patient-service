@@ -19,4 +19,7 @@ public abstract class BaseTimeEntity {
     private LocalDateTime createdDt;
 
     @LastModifiedDate private LocalDateTime updatedDt;
+
+    @Column(name = "tenant_id", nullable = false)
+    private String tenantId;
 }
