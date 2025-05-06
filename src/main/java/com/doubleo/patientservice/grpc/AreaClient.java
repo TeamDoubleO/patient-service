@@ -3,6 +3,8 @@ package com.doubleo.patientservice.grpc;
 import com.doubleo.hospitalservice.domain.area.grpc.AreaIdRequest;
 import com.doubleo.hospitalservice.domain.area.grpc.AreaResponse;
 import com.doubleo.hospitalservice.domain.area.grpc.AreaServiceGrpc;
+import com.doubleo.patientservice.global.exception.CommonException;
+import com.doubleo.patientservice.global.exception.errorcode.GrpcErrorCode;
 import io.grpc.StatusRuntimeException;
 import lombok.extern.slf4j.Slf4j;
 import net.devh.boot.grpc.client.inject.GrpcClient;
@@ -21,7 +23,7 @@ public class AreaClient {
             return blockingStub.getAreaById(request);
         } catch (StatusRuntimeException e) {
             log.warn(e.getMessage());
-            throw new IllegalStateException("gRPC 호출 실패: " + e.getStatus(), e);
+            throw new CommonException(GrpcErrorCode.GRPC_SERVER_RESPONSE_FAILED);
         }
     }
 }
