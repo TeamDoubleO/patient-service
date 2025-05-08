@@ -34,7 +34,7 @@ public class Patient extends BaseTimeEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "patient_gender", nullable = false)
-    private Gender gender;
+    private Sex sex;
 
     @Column(name = "patient_registered_on", nullable = false)
     private LocalDateTime registeredOn;
