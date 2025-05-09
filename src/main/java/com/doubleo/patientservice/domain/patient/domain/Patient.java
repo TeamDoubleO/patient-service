@@ -33,7 +33,7 @@ public class Patient extends BaseEntity {
     private String regNo;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "patient_sexr", nullable = false)
+    @Column(name = "patient_sex", nullable = false)
     private Sex sex;
 
     @Column(name = "patient_registered_on", nullable = false)
