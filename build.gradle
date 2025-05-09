@@ -21,8 +21,6 @@ configurations {
 }
 repositories {
     mavenCentral()
-
-    // 추가: GitHub Packages 에서 grpc-interfaces 모듈(hospital-interface)만 가져오기
     maven {
         name = 'GitHubPackages'
         url  = uri('https://maven.pkg.github.com/TeamDoubleO/grpc-interfaces')
@@ -65,18 +63,22 @@ dependencies {
     testImplementation 'com.h2database:h2'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
-    // (1) hospital-interface 모듈
-    implementation "com.doubleo.grpc:hospital-interface:0.0.9"
+    //gRPC
+    //모듈
+    implementation "com.doubleo.grpc:hospital-interface:0.1.0"
+    implementation "com.doubleo.grpc:patient-interface:0.1.0"
 
-    // (2) gRPC 런타임
+    //gRPC 런타임
     implementation "io.grpc:grpc-netty:1.63.0"
     implementation "io.grpc:grpc-protobuf:1.63.0"
     implementation "io.grpc:grpc-stub:1.63.0"
 
-    // (3) Spring Boot starter for gRPC 서버/클라이언트 자동설정
-    implementation 'com.google.protobuf:protobuf-java:3.24.4'
+    //Spring Boot starter for gRPC 서버/클라이언트 자동설정
+    implementation 'com.google.protobuf:protobuf-java:4.28.2'
     implementation 'net.devh:grpc-spring-boot-starter:3.1.0.RELEASE'
 
+    //Tenant-Context
+    implementation 'com.doubleo:tenant-context:0.0.2'
 }
 
 dependencyManagement {

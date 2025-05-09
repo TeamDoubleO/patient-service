@@ -1,6 +1,6 @@
 package com.doubleo.patientservice.domain.patient.domain;
 
-import com.doubleo.patientservice.domain.model.BaseTimeEntity;
+import com.doubleo.patientservice.domain.model.BaseEntity;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import lombok.Getter;
@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
                     name = "UniqueTenantId",
                     columnNames = {"tenant_id", "patient_id"})
         })
-public class Patient extends BaseTimeEntity {
+public class Patient extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,7 +33,7 @@ public class Patient extends BaseTimeEntity {
     private String regNo;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "patient_gender", nullable = false)
+    @Column(name = "patient_sex", nullable = false)
     private Sex sex;
 
     @Column(name = "patient_registered_on", nullable = false)

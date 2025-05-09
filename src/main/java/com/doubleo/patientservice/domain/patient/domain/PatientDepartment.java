@@ -1,6 +1,6 @@
 package com.doubleo.patientservice.domain.patient.domain;
 
-import com.doubleo.patientservice.domain.model.BaseTimeEntity;
+import com.doubleo.patientservice.domain.model.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import org.hibernate.annotations.OnDelete;
@@ -15,7 +15,7 @@ import org.hibernate.annotations.OnDeleteAction;
                     name = "UniqueTenantId",
                     columnNames = {"tenant_id", "patient_department_id"})
         })
-public class PatientDepartment extends BaseTimeEntity {
+public class PatientDepartment extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
