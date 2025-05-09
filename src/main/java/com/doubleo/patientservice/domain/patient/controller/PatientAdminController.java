@@ -17,7 +17,7 @@ public class PatientAdminController {
 
     @Operation(summary = "환자 정보 조회", description = "환자 정보를 반환합니다.")
     @GetMapping("/{patientId}")
-    public PatientInfoResponse getPatientInfo(@PathVariable Long patientId) {
+    public PatientInfoResponse patientInfoGet(@PathVariable Long patientId) {
         return patientService.getPatientInfo(patientId);
     }
 
