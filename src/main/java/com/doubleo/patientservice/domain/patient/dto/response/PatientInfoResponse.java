@@ -1,6 +1,6 @@
-package com.doubleo.patientservice.domain.patient.dto;
+package com.doubleo.patientservice.domain.patient.dto.response;
 
-import com.doubleo.hospitalservice.domain.area.grpc.AreaResponse;
+import com.doubleo.hospitalservice.domain.area.grpc.server.AreaResponse;
 import com.doubleo.patientservice.domain.patient.domain.Patient;
 import com.doubleo.patientservice.domain.patient.domain.Sex;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -15,7 +15,7 @@ public record PatientInfoResponse(
         @Schema(description = "입원 구역 ID", example = "100") Long admissionAreaId,
         @Schema(description = "입원 구역 이름", example = "1층 중환자실") String admissionAreaName) {
 
-    public static PatientInfoResponse of(Patient patient, AreaResponse area) {
+    public static PatientInfoResponse from(Patient patient, AreaResponse area) {
         return new PatientInfoResponse(
                 patient.getId(),
                 patient.getPatientCode(),
