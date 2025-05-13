@@ -79,6 +79,8 @@ dependencies {
 
     //Tenant-Context
     implementation 'com.doubleo:tenant-context:0.0.2'
+
+    implementation 'net.bytebuddy:byte-buddy:1.14.10'
 }
 
 dependencyManagement {

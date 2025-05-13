@@ -2,13 +2,12 @@ package com.doubleo.patientservice.domain.guardian.domain;
 
 import com.doubleo.patientservice.domain.model.BaseEntity;
 import com.doubleo.patientservice.domain.patient.domain.Patient;
-import com.doubleo.patientservice.domain.patient.domain.Sex;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Getter
@@ -24,6 +23,7 @@ public class Guardian extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "patient_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Patient patient;
 
     @Column(name = "guardian_name", nullable = false)

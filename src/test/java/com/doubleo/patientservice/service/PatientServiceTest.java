@@ -16,7 +16,6 @@ import com.doubleo.patientservice.global.exception.CommonException;
 import com.doubleo.patientservice.global.exception.errorcode.PatientErrorCode;
 import com.doubleo.patientservice.global.util.TenantValidator;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -48,8 +47,7 @@ public class PatientServiceTest {
                         "001111-1234567",
                         Sex.MALE,
                         LocalDateTime.of(2025, 5, 9, 16, 30),
-                        1L,
-                        new ArrayList<>());
+                        1L);
         ReflectionTestUtils.setField(patient, "id", 1L);
         ReflectionTestUtils.setField(patient, "tenantId", "SEO25NE01");
     }

@@ -1,12 +1,8 @@
 package com.doubleo.patientservice.domain.patient.domain;
 
-import com.doubleo.patientservice.domain.guardian.domain.Guardian;
 import com.doubleo.patientservice.domain.model.BaseEntity;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -47,7 +43,4 @@ public class Patient extends BaseEntity {
 
     @Column(name = "patient_admission_area", nullable = false)
     private Long admissionArea;
-
-    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL,  orphanRemoval = true)
-    private List<Guardian> guardians = new ArrayList<>();
 }
