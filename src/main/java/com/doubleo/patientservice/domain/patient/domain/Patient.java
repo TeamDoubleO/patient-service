@@ -48,6 +48,6 @@ public class Patient extends BaseEntity {
     @Column(name = "patient_admission_area", nullable = false)
     private Long admissionArea;
 
-    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL,  orphanRemoval = true)
     private List<Guardian> guardians = new ArrayList<>();
 }
