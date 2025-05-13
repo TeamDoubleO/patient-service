@@ -52,15 +52,7 @@ public class GuardianGrpcServiceImpl extends GuardianServiceGrpc.GuardianService
     private GuardianResponse getGuardianResponseById(long id) {
         return guardianRepository
                 .findById(id)
-                .map(
-                        res ->
-                                GuardianResponse.newBuilder()
-                                        .setGuardianId(res.getId())
-                                        .setTenantId(res.getTenantId())
-                                        .setPatientId(res.getPatient().getId())
-                                        .setGuardianName(res.getGuardianName())
-                                        .setGuardianContact(res.getGuardianContact())
-                                        .build())
+                .map(this::toGuardianResponse)
                 .orElseThrow(() -> new CommonException(GuardianErrorCode.GUARDIAN_NOT_FOUND));
     }
 
