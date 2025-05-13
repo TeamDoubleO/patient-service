@@ -37,9 +37,7 @@ public class GuardianGrpcServiceImpl extends GuardianServiceGrpc.GuardianService
             List<Guardian> guardians =
                     guardianRepository.findAllByPatientId(request.getPatientId());
             List<GuardianResponse> guardianResponses =
-                    guardians.stream()
-                            .map(this::toGuardianResponse)
-                            .toList();
+                    guardians.stream().map(this::toGuardianResponse).toList();
             PatientGuardianListResponse response =
                     PatientGuardianListResponse.newBuilder()
                             .addAllGuardians(guardianResponses)
