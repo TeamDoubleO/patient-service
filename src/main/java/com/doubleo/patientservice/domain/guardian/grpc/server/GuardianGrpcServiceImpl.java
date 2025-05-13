@@ -5,9 +5,8 @@ import com.doubleo.patientservice.domain.guardian.repository.GuardianRepository;
 import com.doubleo.patientservice.global.exception.CommonException;
 import com.doubleo.patientservice.global.exception.errorcode.GuardianErrorCode;
 import io.grpc.stub.StreamObserver;
-import net.devh.boot.grpc.server.service.GrpcService;
-
 import java.util.List;
+import net.devh.boot.grpc.server.service.GrpcService;
 
 @GrpcService
 public class GuardianGrpcServiceImpl extends GuardianServiceGrpc.GuardianServiceImplBase {
@@ -35,13 +34,16 @@ public class GuardianGrpcServiceImpl extends GuardianServiceGrpc.GuardianService
             PatientGuardianListRequest request,
             StreamObserver<PatientGuardianListResponse> responseObserver) {
         try {
-            List<Guardian> guardians = guardianRepository.findAllByPatientId(request.getPatientId());
-            List<GuardianResponse> guardianResponses = guardians.stream()
-                    .map(guardian -> getGuardianResponseById(guardian.getId()))
-                    .toList();
-            PatientGuardianListResponse response = PatientGuardianListResponse.newBuilder()
-                    .addAllGuardians(guardianResponses)
-                    .build();
+            List<Guardian> guardians =
+                    guardianRepository.findAllByPatientId(request.getPatientId());
+            List<GuardianResponse> guardianResponses =
+                    guardians.stream()
+                            .map(guardian -> getGuardianResponseById(guardian.getId()))
+                            .toList();
+            PatientGuardianListResponse response =
+                    PatientGuardianListResponse.newBuilder()
+                            .addAllGuardians(guardianResponses)
+                            .build();
             responseObserver.onNext(response);
             responseObserver.onCompleted();
         } catch (CommonException e) {
@@ -52,13 +54,15 @@ public class GuardianGrpcServiceImpl extends GuardianServiceGrpc.GuardianService
     private GuardianResponse getGuardianResponseById(long id) {
         return guardianRepository
                 .findById(id)
-                .map(res -> GuardianResponse.newBuilder()
-                        .setGuardianId(res.getId())
-                        .setTenantId(res.getTenantId())
-                        .setPatientId(res.getPatient().getId())
-                        .setGuardianName(res.getGuardianName())
-                        .setGuardianContact(res.getGuardianContact())
-                        .build())
+                .map(
+                        res ->
+                                GuardianResponse.newBuilder()
+                                        .setGuardianId(res.getId())
+                                        .setTenantId(res.getTenantId())
+                                        .setPatientId(res.getPatient().getId())
+                                        .setGuardianName(res.getGuardianName())
+                                        .setGuardianContact(res.getGuardianContact())
+                                        .build())
                 .orElseThrow(() -> new CommonException(GuardianErrorCode.GUARDIAN_NOT_FOUND));
     }
 }
