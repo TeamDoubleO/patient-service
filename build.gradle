@@ -120,11 +120,11 @@ tasks.register('updateGitHooks', Copy) {
     into './.git/hooks'
 }
 
-
-tasks.register('makeGitHooksExecutable', Exec) {
-    commandLine 'chmod', '+x', './.git/hooks/pre-commit', './.git/hooks/prepare-commit-msg'
-    dependsOn updateGitHooks
-}
-
-compileJava.dependsOn makeGitHooksExecutable
-
+//
+//tasks.register('makeGitHooksExecutable', Exec) {
+//    commandLine 'chmod', '+x', './.git/hooks/pre-commit', './.git/hooks/prepare-commit-msg'
+//    dependsOn updateGitHooks
+//}
+//
+//compileJava.dependsOn makeGitHooksExecutable
+//
