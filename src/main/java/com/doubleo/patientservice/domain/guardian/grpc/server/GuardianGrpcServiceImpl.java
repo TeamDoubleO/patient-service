@@ -38,7 +38,7 @@ public class GuardianGrpcServiceImpl extends GuardianServiceGrpc.GuardianService
                     guardianRepository.findAllByPatientId(request.getPatientId());
             List<GuardianResponse> guardianResponses =
                     guardians.stream()
-                            .map(guardian -> getGuardianResponseById(guardian.getId()))
+                            .map(this::toGuardianResponse)
                             .toList();
             PatientGuardianListResponse response =
                     PatientGuardianListResponse.newBuilder()
@@ -64,5 +64,15 @@ public class GuardianGrpcServiceImpl extends GuardianServiceGrpc.GuardianService
                                         .setGuardianContact(res.getGuardianContact())
                                         .build())
                 .orElseThrow(() -> new CommonException(GuardianErrorCode.GUARDIAN_NOT_FOUND));
+    }
+
+    private GuardianResponse toGuardianResponse(Guardian guardian) {
+        return GuardianResponse.newBuilder()
+                .setGuardianId(guardian.getId())
+                .setTenantId(guardian.getTenantId())
+                .setPatientId(guardian.getPatient().getId())
+                .setGuardianName(guardian.getGuardianName())
+                .setGuardianContact(guardian.getGuardianContact())
+                .build();
     }
 }
