@@ -36,7 +36,8 @@ public class GuardianServiceImpl implements GuardianService {
                                                 new CommonException(
                                                         PatientErrorCode.PATIENT_NOT_FOUND));
 
-        List<Guardian> guardians = guardianRepository.findByPatientIdAndTenantId(patient.getId(), tenantId);
+        List<Guardian> guardians =
+                guardianRepository.findByPatientIdAndTenantId(patient.getId(), tenantId);
 
         return guardianRepository.findByPatientIdAndTenantId(patient.getId(), tenantId).stream()
                 .map(GuardianInfoResponse::from)
