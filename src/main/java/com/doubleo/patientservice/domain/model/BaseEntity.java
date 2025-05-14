@@ -24,6 +24,11 @@ public abstract class BaseEntity implements Tenant {
     private String tenantId;
 
     @Override
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
+    }
+
+    @Override
     public String getTenantId() {
         return tenantId;
     }

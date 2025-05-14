@@ -3,9 +3,7 @@ package com.doubleo.patientservice.domain.guardian.domain;
 import com.doubleo.patientservice.domain.model.BaseEntity;
 import com.doubleo.patientservice.domain.patient.domain.Patient;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -31,4 +29,23 @@ public class Guardian extends BaseEntity {
 
     @Column(name = "guardian_contact", nullable = false)
     private String guardianContact;
+
+    @Builder(access = AccessLevel.PRIVATE)
+    private Guardian(
+            String tenantId, Patient patient, String guardianName, String guardianContact) {
+        setTenantId(tenantId);
+        this.patient = patient;
+        this.guardianName = guardianName;
+        this.guardianContact = guardianContact;
+    }
+
+    public static Guardian createGuardian(
+            String tenantId, Patient patient, String guardianName, String guardianContact) {
+        return Guardian.builder()
+                .tenantId(tenantId)
+                .patient(patient)
+                .guardianName(guardianName)
+                .guardianContact(guardianContact)
+                .build();
+    }
 }
