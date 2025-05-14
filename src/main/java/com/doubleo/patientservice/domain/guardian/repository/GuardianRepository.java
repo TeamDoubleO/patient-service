@@ -6,4 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface GuardianRepository extends JpaRepository<Guardian, Long> {
     List<Guardian> findAllByPatientId(long id);
+
+    List<Guardian> findByPatientIdAndTenantId(Long patientId, String tenantId);
 }
