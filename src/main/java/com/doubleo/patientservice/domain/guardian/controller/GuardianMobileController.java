@@ -18,7 +18,8 @@ public class GuardianMobileController {
     @Operation(summary = "환자 별 보호자 조회", description = "모바일에서 환자가 자신의 보호자를 조회")
     @GetMapping("/guardians")
     public List<GuardianInfoResponse> getGuardiansByPatientId(
-            @RequestHeader("X-Patient-Code") String patientCode, @RequestHeader("X-Hospital-Id") Long hospitalId) {
+            @RequestHeader("X-Patient-Code") String patientCode,
+            @RequestHeader("X-Hospital-Id") Long hospitalId) {
         return guardianService.getGuardiansByPatientCode(patientCode);
     }
 }
