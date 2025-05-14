@@ -1,6 +1,7 @@
 package com.doubleo.patientservice.domain.patient.controller;
 
 import com.doubleo.patientservice.domain.patient.dto.request.PatientCodeCheckRequest;
+import com.doubleo.patientservice.domain.patient.dto.response.PatientNameResponse;
 import com.doubleo.patientservice.domain.patient.service.PatientService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -23,5 +24,11 @@ public class PatientMobileController {
             @Valid @RequestBody PatientCodeCheckRequest request) {
         patientService.checkPatientCode(request);
         return ResponseEntity.ok().build();
+    }
+
+    @Operation(summary = "환자 이름 조회", description = "보호자가 자신의 환자 이름을 조회하는 기능입니다.")
+    @GetMapping("/{patientId}/name")
+    public PatientNameResponse patientNameGet(@PathVariable("patientId") Long patientId) {
+        return patientService.getPatientName(patientId);
     }
 }

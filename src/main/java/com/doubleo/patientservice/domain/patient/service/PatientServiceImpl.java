@@ -4,6 +4,7 @@ import com.doubleo.hospitalservice.domain.area.grpc.server.AreaResponse;
 import com.doubleo.patientservice.domain.patient.domain.Patient;
 import com.doubleo.patientservice.domain.patient.dto.request.PatientCodeCheckRequest;
 import com.doubleo.patientservice.domain.patient.dto.response.PatientInfoResponse;
+import com.doubleo.patientservice.domain.patient.dto.response.PatientNameResponse;
 import com.doubleo.patientservice.domain.patient.grpc.client.AreaClient;
 import com.doubleo.patientservice.domain.patient.repository.PatientRepository;
 import com.doubleo.patientservice.global.exception.CommonException;
@@ -30,6 +31,12 @@ public class PatientServiceImpl implements PatientService {
         Patient patient = validatePatient(patientId);
         AreaResponse area = getPatientArea(patient);
         return PatientInfoResponse.from(patient, area);
+    }
+
+    @Override
+    public PatientNameResponse getPatientName(Long patientId) {
+        Patient patient = validatePatient(patientId);
+        return PatientNameResponse.from(patient);
     }
 
     //    @Override
