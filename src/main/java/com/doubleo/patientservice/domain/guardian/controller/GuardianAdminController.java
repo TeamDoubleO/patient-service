@@ -16,7 +16,7 @@ public class GuardianAdminController {
     private final GuardianService guardianService;
 
     @Operation(summary = "환자 별 보호자 조회", description = "관리자가 자신의 병원의 환자의 보호자를 조회")
-    @PostMapping("/{patientCode}/guardians")
+    @GetMapping("/{patientCode}/guardians")
     public List<GuardianInfoResponse> getGuardiansByPatientId(@PathVariable String patientCode) {
         return guardianService.getGuardiansByPatientCode(patientCode);
     }
