@@ -33,7 +33,7 @@ public class Guardian extends BaseEntity {
     @Builder(access = AccessLevel.PRIVATE)
     private Guardian(
             String tenantId, Patient patient, String guardianName, String guardianContact) {
-        setTenantId(tenantId);
+        super.tenantId = tenantId;
         this.patient = patient;
         this.guardianName = guardianName;
         this.guardianContact = guardianContact;
