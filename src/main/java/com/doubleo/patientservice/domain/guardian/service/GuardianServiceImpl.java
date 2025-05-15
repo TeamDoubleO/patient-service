@@ -28,13 +28,9 @@ public class GuardianServiceImpl implements GuardianService {
         String tenantId = tenantValidator.getTenantId();
 
         Patient patient =
-                (Patient)
-                        patientRepository
-                                .findPatientByPatientCodeAndTenantId(patientCode, tenantId)
-                                .orElseThrow(
-                                        () ->
-                                                new CommonException(
-                                                        PatientErrorCode.PATIENT_NOT_FOUND));
+                patientRepository
+                        .findPatientByPatientCodeAndTenantId(patientCode, tenantId)
+                        .orElseThrow(() -> new CommonException(PatientErrorCode.PATIENT_NOT_FOUND));
 
         List<Guardian> guardians =
                 guardianRepository.findByPatientIdAndTenantId(patient.getId(), tenantId);
