@@ -1,6 +1,5 @@
 package com.doubleo.patientservice.domain.guardian.service;
 
-import com.doubleo.patientservice.domain.guardian.domain.Guardian;
 import com.doubleo.patientservice.domain.guardian.dto.response.GuardianInfoResponse;
 import com.doubleo.patientservice.domain.guardian.repository.GuardianRepository;
 import com.doubleo.patientservice.domain.patient.domain.Patient;
@@ -23,19 +22,16 @@ public class GuardianServiceImpl implements GuardianService {
     private final TenantValidator tenantValidator;
 
     @Override
-    public List<GuardianInfoResponse> getGuardiansByPatientCode(String patientCode) {
-
-        String tenantId = tenantValidator.getTenantId();
+    public List<GuardianInfoResponse> getGuardiansByPatientId(Long patientId) {
 
         Patient patient =
                 patientRepository
-                        .findPatientByPatientCodeAndTenantId(patientCode, tenantId)
+                        .findById(patientId)
                         .orElseThrow(() -> new CommonException(PatientErrorCode.PATIENT_NOT_FOUND));
 
-        List<Guardian> guardians =
-                guardianRepository.findByPatientIdAndTenantId(patient.getId(), tenantId);
+        tenantValidator.validateTenant(patient.getTenantId());
 
-        return guardianRepository.findByPatientIdAndTenantId(patient.getId(), tenantId).stream()
+        return guardianRepository.findAllByPatientId(patientId).stream()
                 .map(GuardianInfoResponse::from)
                 .collect(Collectors.toList());
     }
