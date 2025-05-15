@@ -11,9 +11,10 @@ import com.doubleo.patientservice.global.exception.CommonException;
 import com.doubleo.patientservice.global.exception.errorcode.PatientErrorCode;
 import com.doubleo.patientservice.global.util.TenantValidator;
 import com.doubleo.tenantcontext.TenantContextHolder;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,18 +40,18 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<PatientInfoResponse> getPatientListInfo() {
+    public Page<PatientInfoResponse> getPatientListInfo(Pageable pageable) {
         String tenantId = TenantContextHolder.getTenantId();
 
-        return patientRepository.findAllByTenantId(tenantId).stream()
+        return patientRepository
+                .findAllByTenantId(tenantId, pageable)
                 .map(
                         patient -> {
                             AreaResponse area = getPatientArea(patient);
                             Long guardianCount =
                                     guardianRepository.countByPatientId(patient.getId());
                             return PatientInfoResponse.from(patient, area, guardianCount);
-                        })
-                .toList();
+                        });
     }
 
     // mobile
