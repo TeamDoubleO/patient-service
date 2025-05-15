@@ -77,8 +77,6 @@ public class PatientServiceImpl implements PatientService {
     }
 
     private AreaResponse getPatientArea(Patient patient) {
-        AreaResponse area = areaClient.getAreaById(patient.getId());
-        tenantValidator.validateTenant(area.getTenantId());
-        return area;
+        return areaClient.getAreaById(patient.getAdmissionArea());
     }
 }
