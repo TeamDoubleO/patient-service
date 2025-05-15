@@ -5,6 +5,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
 
 import com.doubleo.hospitalservice.domain.area.grpc.server.AreaResponse;
+import com.doubleo.patientservice.domain.guardian.repository.GuardianRepository;
 import com.doubleo.patientservice.domain.patient.domain.Patient;
 import com.doubleo.patientservice.domain.patient.domain.Sex;
 import com.doubleo.patientservice.domain.patient.dto.request.PatientCodeCheckRequest;
@@ -30,6 +31,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 public class PatientServiceTest {
 
     @Mock PatientRepository patientRepository;
+    @Mock GuardianRepository guardianRepository;
     @Mock TenantValidator tenantValidator;
     @Mock AreaClient areaClient;
 
@@ -63,9 +65,11 @@ public class PatientServiceTest {
                             .setAreaId(1L)
                             .setAreaCode("101")
                             .setAreaName("병동1")
+                            .setTenantId("SEO25NE01")
                             .build();
             given(patientRepository.findById(1L)).willReturn(Optional.of(patient));
             given(areaClient.getAreaById(1L)).willReturn(area);
+            given(guardianRepository.countByPatientId(1L)).willReturn(2L);
 
             // when
             PatientInfoResponse response = patientService.getPatientInfo(1L);
@@ -76,6 +80,8 @@ public class PatientServiceTest {
             assertThat(response.name()).isEqualTo(patient.getName());
             assertThat(response.sex()).isEqualTo(patient.getSex());
             assertThat(response.registeredOn()).isEqualTo(patient.getRegisteredOn());
+            assertThat(response.admissionAreaName()).isEqualTo("병동1");
+            assertThat(response.guardianCount()).isEqualTo(2L);
         }
     }
 
