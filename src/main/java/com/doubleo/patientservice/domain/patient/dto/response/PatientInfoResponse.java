@@ -13,9 +13,10 @@ public record PatientInfoResponse(
         @Schema(description = "환자 성별", example = "MALE") Sex sex,
         @Schema(description = "등록 일시", example = "2025-05-05T14:30:00") LocalDateTime registeredOn,
         @Schema(description = "입원 구역 ID", example = "100") Long admissionAreaId,
-        @Schema(description = "입원 구역 이름", example = "1층 중환자실") String admissionAreaName) {
+        @Schema(description = "입원 구역 이름", example = "1층 중환자실") String admissionAreaName,
+        @Schema(description = "보호자 수", example = "2") Long guardianCount) {
 
-    public static PatientInfoResponse from(Patient patient, AreaResponse area) {
+    public static PatientInfoResponse from(Patient patient, AreaResponse area, Long guardianCount) {
         return new PatientInfoResponse(
                 patient.getId(),
                 patient.getPatientCode(),
@@ -23,6 +24,7 @@ public record PatientInfoResponse(
                 patient.getSex(),
                 patient.getRegisteredOn(),
                 patient.getAdmissionArea(),
-                area.getAreaName());
+                area.getAreaName(),
+                guardianCount);
     }
 }
