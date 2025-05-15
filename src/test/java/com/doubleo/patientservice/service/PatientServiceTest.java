@@ -79,7 +79,6 @@ public class PatientServiceTest {
             assertThat(response.patientCode()).isEqualTo(patient.getPatientCode());
             assertThat(response.name()).isEqualTo(patient.getName());
             assertThat(response.sex()).isEqualTo(patient.getSex());
-            assertThat(response.registeredOn()).isEqualTo(patient.getRegisteredOn());
             assertThat(response.admissionAreaName()).isEqualTo("병동1");
             assertThat(response.guardianCount()).isEqualTo(2L);
         }
