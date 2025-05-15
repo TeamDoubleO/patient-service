@@ -4,5 +4,5 @@ import com.doubleo.patientservice.domain.guardian.dto.response.GuardianInfoRespo
 import java.util.List;
 
 public interface GuardianService {
-    List<GuardianInfoResponse> getGuardiansByPatientCode(String patientCode);
+    List<GuardianInfoResponse> getGuardiansByPatientId(Long patientId);
 }
