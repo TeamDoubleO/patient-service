@@ -54,6 +54,20 @@ public class PatientGrpcServiceImpl extends PatientServiceGrpc.PatientServiceImp
         Optional<Patient> patient =
                 patientRepository.findByTenantIdAndNameAndRegNo(
                         request.getTenantId(), request.getPatientName(), request.getPatientRegNo());
+        createPatientResponse(responseObserver, patient);
+    }
+
+    @Override
+    public void getPatientByCode(
+            PatientByCode request, StreamObserver<PatientResponse> responseObserver) {
+        Optional<Patient> patient =
+                patientRepository.findByTenantIdAndPatientCode(
+                        request.getTenantId(), request.getPatientCode());
+        createPatientResponse(responseObserver, patient);
+    }
+
+    private void createPatientResponse(
+            StreamObserver<PatientResponse> responseObserver, Optional<Patient> patient) {
         if (patient.isPresent()) {
             Patient p = patient.get();
             responseObserver.onNext(
