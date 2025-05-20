@@ -52,7 +52,7 @@ public class PatientGrpcServiceImpl extends PatientServiceGrpc.PatientServiceImp
             PatientByNameAndRegNoRequest request,
             StreamObserver<PatientResponse> responseObserver) {
         Optional<Patient> patient =
-                patientRepository.findByTenantIdAndPatientNameAndPatientRegNo(
+                patientRepository.findByTenantIdAndNameAndRegNo(
                         request.getTenantId(), request.getPatientName(), request.getPatientRegNo());
         if (patient.isPresent()) {
             Patient p = patient.get();
