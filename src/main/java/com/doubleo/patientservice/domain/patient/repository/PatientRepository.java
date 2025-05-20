@@ -10,4 +10,6 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
     Optional<Patient> findPatientByPatientCodeAndTenantId(String patientCode, String tenantId);
 
     Page<Patient> findAllByTenantId(String tenantId, Pageable pageable);
+
+    Optional<Patient> findByTenantIdAndPatientNameAndPatientRegNo(String tenantId, String patientName, String patientRegNo);
 }
