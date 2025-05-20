@@ -65,8 +65,8 @@ dependencies {
 
     //gRPC
     //모듈
-    implementation "com.doubleo.grpc:hospital-interface:0.1.5"
-    implementation "com.doubleo.grpc:patient-interface:0.1.5"
+    implementation "com.doubleo.grpc:hospital-interface:0.1.8"
+    implementation "com.doubleo.grpc:patient-interface:0.1.8"
 
     //gRPC 런타임
     implementation "io.grpc:grpc-netty:1.63.0"
