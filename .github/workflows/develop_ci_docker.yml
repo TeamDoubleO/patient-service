@@ -43,3 +43,4 @@ jobs:
           context: .
           push: true
           tags: sunwoo11/keywe_patient_service:latest
+          tags: sunwoo11/keywe_patient_service:dev
