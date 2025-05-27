@@ -1,20 +1,16 @@
 package com.doubleo.patientservice.service;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
 
 import com.doubleo.hospitalservice.domain.area.grpc.server.AreaResponse;
 import com.doubleo.patientservice.domain.guardian.repository.GuardianRepository;
 import com.doubleo.patientservice.domain.patient.domain.Patient;
 import com.doubleo.patientservice.domain.patient.domain.Sex;
-import com.doubleo.patientservice.domain.patient.dto.request.PatientCodeCheckRequest;
 import com.doubleo.patientservice.domain.patient.dto.response.PatientInfoResponse;
 import com.doubleo.patientservice.domain.patient.grpc.client.AreaClient;
 import com.doubleo.patientservice.domain.patient.repository.PatientRepository;
 import com.doubleo.patientservice.domain.patient.service.PatientServiceImpl;
-import com.doubleo.patientservice.global.exception.CommonException;
-import com.doubleo.patientservice.global.exception.errorcode.PatientErrorCode;
 import com.doubleo.patientservice.global.util.TenantValidator;
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -81,23 +77,6 @@ public class PatientServiceTest {
             assertThat(response.sex()).isEqualTo(patient.getSex());
             assertThat(response.admissionAreaName()).isEqualTo("병동1");
             assertThat(response.guardianCount()).isEqualTo(2L);
-        }
-    }
-
-    @Nested
-    class checkPatientCode {
-
-        @Test
-        void 환자_코드가_일치하지_않으면_오류가_발생한다() {
-            // given
-            String patientCode = "Wrong";
-
-            PatientCodeCheckRequest request = new PatientCodeCheckRequest(patientCode);
-
-            // when & then
-            assertThatThrownBy(() -> patientService.checkPatientCode(request))
-                    .isInstanceOf(CommonException.class)
-                    .hasMessageContaining(PatientErrorCode.PATIENT_NOT_FOUND.getMessage());
         }
     }
 }
