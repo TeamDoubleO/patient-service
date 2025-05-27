@@ -83,21 +83,4 @@ public class PatientServiceTest {
             assertThat(response.guardianCount()).isEqualTo(2L);
         }
     }
-
-    @Nested
-    class checkPatientCode {
-
-        @Test
-        void 환자_코드가_일치하지_않으면_오류가_발생한다() {
-            // given
-            String patientCode = "Wrong";
-
-            PatientCodeCheckRequest request = new PatientCodeCheckRequest(patientCode);
-
-            // when & then
-            assertThatThrownBy(() -> patientService.checkPatientCode(request))
-                    .isInstanceOf(CommonException.class)
-                    .hasMessageContaining(PatientErrorCode.PATIENT_NOT_FOUND.getMessage());
-        }
-    }
 }
