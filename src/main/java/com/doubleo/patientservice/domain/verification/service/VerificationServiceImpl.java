@@ -1,8 +1,6 @@
 package com.doubleo.patientservice.domain.verification.service;
 
 import com.doubleo.memberservice.domain.member.grpc.server.MemberResponse;
-import com.doubleo.patientservice.domain.guardian.repository.GuardianRepository;
-import com.doubleo.patientservice.domain.patient.domain.Patient;
 import com.doubleo.patientservice.domain.patient.repository.PatientRepository;
 import com.doubleo.patientservice.domain.verification.grpc.client.MemberClient;
 import com.doubleo.patientservice.global.exception.CommonException;
@@ -22,14 +20,19 @@ public class VerificationServiceImpl implements VerificationService {
     @Override
     public void verifyPatient(String tenantId, Long memberId) {
         MemberResponse member = memberClient.getMemberById(memberId);
-        if (patientRepository.findByTenantIdAndNameAndRegNo(tenantId, member.getMemberName(), member.getMemberRegNo()).isEmpty()) {
+        if (patientRepository
+                .findByTenantIdAndNameAndRegNo(
+                        tenantId, member.getMemberName(), member.getMemberRegNo())
+                .isEmpty()) {
             throw new CommonException(PatientErrorCode.PATIENT_NOT_FOUND);
         }
     }
 
     @Override
     public void verifyPatientCode(String tenantId, Long memberId, String patientCode) {
-        if (patientRepository.findPatientByPatientCodeAndTenantId(patientCode, tenantId).isEmpty()) {
+        if (patientRepository
+                .findPatientByPatientCodeAndTenantId(patientCode, tenantId)
+                .isEmpty()) {
             throw new CommonException(PatientErrorCode.PATIENT_NOT_FOUND);
         }
     }

@@ -18,7 +18,9 @@ public class VerificationController {
 
     @Operation(summary = "환자 검증", description = "현재 회원 정보와 일치하는 환자 유무 확인.")
     @PostMapping("/verify/patient")
-    public ResponseEntity<Void> PatientVerify(@RequestHeader("X-Member-Id") Long memberId, @RequestHeader("X-Tenant-Id") String tenantId) {
+    public ResponseEntity<Void> PatientVerify(
+            @RequestHeader("X-Member-Id") Long memberId,
+            @RequestHeader("X-Tenant-Id") String tenantId) {
         try {
             verificationService.verifyPatient(tenantId, memberId);
             return ResponseEntity.ok().build();
@@ -29,7 +31,10 @@ public class VerificationController {
 
     @Operation(summary = "보호자가 환자 코드 검증", description = "환자 코드가 일치하는 환자 유무 확인.")
     @PostMapping("/verify/guardian")
-    public ResponseEntity<Void> GuardianVerify(@RequestHeader("X-Member-Id") Long memberId, @RequestHeader("X-Tenant-Id") String tenantId, @RequestBody GuardianVerificationRequest request) {
+    public ResponseEntity<Void> GuardianVerify(
+            @RequestHeader("X-Member-Id") Long memberId,
+            @RequestHeader("X-Tenant-Id") String tenantId,
+            @RequestBody GuardianVerificationRequest request) {
         try {
             verificationService.verifyPatientCode(tenantId, memberId, request.patientCode());
             return ResponseEntity.ok().build();
@@ -37,5 +42,4 @@ public class VerificationController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
-
 }

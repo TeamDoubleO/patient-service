@@ -3,7 +3,6 @@ package com.doubleo.patientservice.domain.patient.service;
 import com.doubleo.hospitalservice.domain.area.grpc.server.AreaResponse;
 import com.doubleo.patientservice.domain.guardian.repository.GuardianRepository;
 import com.doubleo.patientservice.domain.patient.domain.Patient;
-import com.doubleo.patientservice.domain.patient.dto.request.PatientCodeCheckRequest;
 import com.doubleo.patientservice.domain.patient.dto.response.PatientInfoResponse;
 import com.doubleo.patientservice.domain.patient.grpc.client.AreaClient;
 import com.doubleo.patientservice.domain.patient.repository.PatientRepository;

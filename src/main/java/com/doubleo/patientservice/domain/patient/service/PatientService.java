@@ -1,6 +1,5 @@
 package com.doubleo.patientservice.domain.patient.service;
 
-import com.doubleo.patientservice.domain.patient.dto.request.PatientCodeCheckRequest;
 import com.doubleo.patientservice.domain.patient.dto.response.PatientInfoResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
