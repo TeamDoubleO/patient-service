@@ -2,10 +2,8 @@ package com.doubleo.patientservice.domain.verification.controller;
 
 import com.doubleo.patientservice.domain.verification.dto.request.GuardianVerificationRequest;
 import com.doubleo.patientservice.domain.verification.service.VerificationService;
-import com.doubleo.patientservice.global.exception.CommonException;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,12 +19,8 @@ public class VerificationController {
     public ResponseEntity<Void> PatientVerify(
             @RequestHeader("X-Member-Id") Long memberId,
             @RequestHeader("X-Tenant-Id") String tenantId) {
-        try {
-            verificationService.verifyPatient(tenantId, memberId);
-            return ResponseEntity.ok().build();
-        } catch (CommonException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+        verificationService.verifyPatient(tenantId, memberId);
+        return ResponseEntity.ok().build();
     }
 
     @Operation(summary = "보호자가 환자 코드 검증", description = "환자 코드가 일치하는 환자 유무 확인.")
@@ -35,11 +29,7 @@ public class VerificationController {
             @RequestHeader("X-Member-Id") Long memberId,
             @RequestHeader("X-Tenant-Id") String tenantId,
             @RequestBody GuardianVerificationRequest request) {
-        try {
-            verificationService.verifyPatientCode(tenantId, memberId, request.patientCode());
-            return ResponseEntity.ok().build();
-        } catch (CommonException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+        verificationService.verifyPatientCode(tenantId, memberId, request.patientCode());
+        return ResponseEntity.ok().build();
     }
 }
