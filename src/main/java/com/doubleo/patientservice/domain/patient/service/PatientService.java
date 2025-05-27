@@ -10,6 +10,4 @@ public interface PatientService {
     PatientInfoResponse getPatientInfo(Long patientId);
 
     Page<PatientInfoResponse> getPatientListInfo(Pageable pageable);
-
-    void checkPatientCode(PatientCodeCheckRequest request);
 }

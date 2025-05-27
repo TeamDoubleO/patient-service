@@ -54,13 +54,6 @@ public class PatientServiceImpl implements PatientService {
                         });
     }
 
-    // mobile
-    @Override
-    @Transactional(readOnly = true)
-    public void checkPatientCode(PatientCodeCheckRequest request) {
-        isPatientWithCodeExists(request.patientCode());
-    }
-
     // util
     private void isPatientWithCodeExists(String patientCode) {
         patientRepository
