@@ -13,6 +13,8 @@ public class ErrorCodeRegistry {
         registry.put("GrpcErrorCode", GrpcErrorCode::valueOf);
         registry.put("PatientErrorCode", PatientErrorCode::valueOf);
         registry.put("GuardianErrorCode", GuardianErrorCode::valueOf);
+        registry.put("AreaErrorCode", AreaErrorCode::valueOf);
+        registry.put("MemberErrorCode", MemberErrorCode::valueOf);
         registry.put("TenantErrorCode", TenantErrorCode::valueOf);
     }
 
