@@ -18,9 +18,7 @@ public class PatientGrpcServiceImpl extends PatientServiceGrpc.PatientServiceImp
     private final PatientAreaRepository patientAreaRepository;
 
     public PatientGrpcServiceImpl(
-            PatientRepository patientRepository,
-            TimeUtil timeUtil,
-            PatientAreaRepository patientAreaRepository) {
+            PatientRepository patientRepository, PatientAreaRepository patientAreaRepository) {
         this.patientRepository = patientRepository;
         this.patientAreaRepository = patientAreaRepository;
     }

@@ -1,6 +1,5 @@
 package com.doubleo.patientservice.domain.patient.dto.response;
 
-import com.doubleo.hospitalservice.domain.area.grpc.server.AreaResponse;
 import com.doubleo.patientservice.domain.patient.domain.Patient;
 import com.doubleo.patientservice.domain.patient.domain.Sex;
 import com.doubleo.patientservice.domain.patient.dto.AreaInfo;
@@ -16,19 +15,13 @@ public record PatientInfoResponse(
         @Schema(description = "보호자 수", example = "2") Long guardianCount) {
 
     public static PatientInfoResponse from(
-            Patient patient, List<AreaResponse> areas, Long guardianCount) {
+            Patient patient, List<AreaInfo> areas, Long guardianCount) {
         return new PatientInfoResponse(
                 patient.getId(),
                 patient.getPatientCode(),
                 patient.getName(),
                 patient.getSex(),
-                areas.stream()
-                        .map(
-                                areaResponse ->
-                                        new AreaInfo(
-                                                areaResponse.getAreaCode(),
-                                                areaResponse.getAreaName()))
-                        .toList(),
+                areas,
                 guardianCount);
     }
 }

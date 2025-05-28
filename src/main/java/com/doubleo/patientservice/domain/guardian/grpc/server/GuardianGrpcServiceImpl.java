@@ -5,6 +5,7 @@ import com.doubleo.patientservice.domain.guardian.repository.GuardianRepository;
 import com.doubleo.patientservice.domain.patient.domain.Patient;
 import com.doubleo.patientservice.domain.patient.repository.PatientRepository;
 import com.doubleo.patientservice.global.exception.CommonException;
+import com.doubleo.patientservice.global.exception.GrpcExceptionUtil;
 import com.doubleo.patientservice.global.exception.errorcode.GuardianErrorCode;
 import com.doubleo.patientservice.global.exception.errorcode.PatientErrorCode;
 import io.grpc.stub.StreamObserver;
@@ -55,7 +56,7 @@ public class GuardianGrpcServiceImpl extends GuardianServiceGrpc.GuardianService
             responseObserver.onNext(response);
             responseObserver.onCompleted();
         } catch (CommonException e) {
-            responseObserver.onError(e);
+            responseObserver.onError(GrpcExceptionUtil.toStatusRuntimeException(e.getErrorCode()));
         }
     }
 
@@ -86,7 +87,7 @@ public class GuardianGrpcServiceImpl extends GuardianServiceGrpc.GuardianService
             responseObserver.onNext(response);
             responseObserver.onCompleted();
         } catch (CommonException e) {
-            responseObserver.onError(e);
+            responseObserver.onError(GrpcExceptionUtil.toStatusRuntimeException(e.getErrorCode()));
         }
     }
 

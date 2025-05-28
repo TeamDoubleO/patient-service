@@ -4,6 +4,7 @@ import com.doubleo.hospitalservice.domain.area.grpc.server.AreaResponse;
 import com.doubleo.patientservice.domain.guardian.repository.GuardianRepository;
 import com.doubleo.patientservice.domain.patient.domain.Patient;
 import com.doubleo.patientservice.domain.patient.domain.PatientArea;
+import com.doubleo.patientservice.domain.patient.dto.AreaInfo;
 import com.doubleo.patientservice.domain.patient.dto.response.PatientInfoResponse;
 import com.doubleo.patientservice.domain.patient.grpc.client.AreaClient;
 import com.doubleo.patientservice.domain.patient.repository.PatientAreaRepository;
@@ -36,9 +37,7 @@ public class PatientServiceImpl implements PatientService {
     @Transactional(readOnly = true)
     public PatientInfoResponse getPatientInfo(Long patientId) {
         Patient patient = validatePatient(patientId);
-        List<AreaResponse> areas = getPatientAreas(patient);
-        Long guardianCount = guardianRepository.countByPatientId(patient.getId());
-        return PatientInfoResponse.from(patient, areas, guardianCount);
+        return getPatientInfoResponse(patient);
     }
 
     @Override
@@ -48,13 +47,25 @@ public class PatientServiceImpl implements PatientService {
 
         return patientRepository
                 .findAllByTenantId(tenantId, pageable)
-                .map(
-                        patient -> {
-                            List<AreaResponse> areas = getPatientAreas(patient);
-                            Long guardianCount =
-                                    guardianRepository.countByPatientId(patient.getId());
-                            return PatientInfoResponse.from(patient, areas, guardianCount);
-                        });
+                .map(this::getPatientInfoResponse);
+    }
+
+    private PatientInfoResponse getPatientInfoResponse(Patient patient) {
+        List<AreaResponse> areas = getPatientAreas(patient);
+        Long guardianCount = guardianRepository.countByPatientId(patient.getId());
+        List<AreaInfo> areaInfos =
+                areas.stream()
+                        .map(
+                                areaResponse ->
+                                        new AreaInfo(
+                                                areaResponse.getAreaCode(),
+                                                areaClient
+                                                        .getAreaFullNameByCode(
+                                                                areaResponse.getTenantId(),
+                                                                areaResponse.getAreaCode())
+                                                        .getAreaFullName()))
+                        .toList();
+        return PatientInfoResponse.from(patient, areaInfos, guardianCount);
     }
 
     // util
