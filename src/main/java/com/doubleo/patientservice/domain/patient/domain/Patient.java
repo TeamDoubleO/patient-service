@@ -40,7 +40,4 @@ public class Patient extends BaseEntity {
 
     @Column(name = "patient_registered_on", nullable = false)
     private LocalDateTime registeredOn;
-
-    @Column(name = "patient_admission_area", nullable = false)
-    private Long admissionArea;
 }

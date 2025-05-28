@@ -1,7 +1,8 @@
 package com.doubleo.patientservice.domain.patient.grpc.server;
 
 import com.doubleo.patientservice.domain.patient.domain.Patient;
-import com.doubleo.patientservice.domain.patient.dto.response.PatientGrpcResponse;
+import com.doubleo.patientservice.domain.patient.domain.PatientArea;
+import com.doubleo.patientservice.domain.patient.repository.PatientAreaRepository;
 import com.doubleo.patientservice.domain.patient.repository.PatientRepository;
 import com.doubleo.patientservice.global.exception.CommonException;
 import com.doubleo.patientservice.global.exception.errorcode.PatientErrorCode;
@@ -14,37 +15,21 @@ import net.devh.boot.grpc.server.service.GrpcService;
 public class PatientGrpcServiceImpl extends PatientServiceGrpc.PatientServiceImplBase {
 
     private final PatientRepository patientRepository;
+    private final PatientAreaRepository patientAreaRepository;
 
-    public PatientGrpcServiceImpl(PatientRepository patientRepository, TimeUtil timeUtil) {
+    public PatientGrpcServiceImpl(
+            PatientRepository patientRepository,
+            TimeUtil timeUtil,
+            PatientAreaRepository patientAreaRepository) {
         this.patientRepository = patientRepository;
+        this.patientAreaRepository = patientAreaRepository;
     }
 
     @Override
     public void getPatient(
             PatientRequest request, StreamObserver<PatientResponse> responseObserver) {
-        patientRepository
-                .findById(request.getPatientId())
-                .map(PatientGrpcResponse::fromEntity)
-                .ifPresentOrElse(
-                        res -> {
-                            PatientResponse resp =
-                                    PatientResponse.newBuilder()
-                                            .setPatientId(res.patientId())
-                                            .setTenantId(res.TenantId())
-                                            .setPatientCode(res.patientCode())
-                                            .setName(res.name())
-                                            .setSex(Sex.valueOf(res.sex().getSex()))
-                                            .setRegisteredOn(
-                                                    TimeUtil.fromLocalDateTime(res.registeredOn()))
-                                            .setAdmissionArea(res.admissionAreaId())
-                                            .build();
-                            responseObserver.onNext(resp);
-                            responseObserver.onCompleted();
-                        },
-                        () -> {
-                            responseObserver.onError(
-                                    new CommonException(PatientErrorCode.PATIENT_NOT_FOUND));
-                        });
+        Optional<Patient> patient = patientRepository.findById(request.getPatientId());
+        createPatientResponse(responseObserver, patient);
     }
 
     @Override
@@ -78,7 +63,10 @@ public class PatientGrpcServiceImpl extends PatientServiceGrpc.PatientServiceImp
                             .setName(p.getName())
                             .setSex(Sex.valueOf(p.getSex().getSex()))
                             .setRegisteredOn(TimeUtil.fromLocalDateTime(p.getRegisteredOn()))
-                            .setAdmissionArea(p.getAdmissionArea())
+                            .addAllAreas(
+                                    patientAreaRepository.findAllByPatient(p).stream()
+                                            .map(PatientArea::getAreaId)
+                                            .toList())
                             .build());
             responseObserver.onCompleted();
         } else {

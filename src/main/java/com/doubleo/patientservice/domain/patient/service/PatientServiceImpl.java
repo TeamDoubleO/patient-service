@@ -3,13 +3,16 @@ package com.doubleo.patientservice.domain.patient.service;
 import com.doubleo.hospitalservice.domain.area.grpc.server.AreaResponse;
 import com.doubleo.patientservice.domain.guardian.repository.GuardianRepository;
 import com.doubleo.patientservice.domain.patient.domain.Patient;
+import com.doubleo.patientservice.domain.patient.domain.PatientArea;
 import com.doubleo.patientservice.domain.patient.dto.response.PatientInfoResponse;
 import com.doubleo.patientservice.domain.patient.grpc.client.AreaClient;
+import com.doubleo.patientservice.domain.patient.repository.PatientAreaRepository;
 import com.doubleo.patientservice.domain.patient.repository.PatientRepository;
 import com.doubleo.patientservice.global.exception.CommonException;
 import com.doubleo.patientservice.global.exception.errorcode.PatientErrorCode;
 import com.doubleo.patientservice.global.util.TenantValidator;
 import com.doubleo.tenantcontext.TenantContextHolder;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -24,6 +27,7 @@ public class PatientServiceImpl implements PatientService {
 
     private final PatientRepository patientRepository;
     private final GuardianRepository guardianRepository;
+    private final PatientAreaRepository patientAreaRepository;
     private final AreaClient areaClient;
     private final TenantValidator tenantValidator;
 
@@ -32,9 +36,9 @@ public class PatientServiceImpl implements PatientService {
     @Transactional(readOnly = true)
     public PatientInfoResponse getPatientInfo(Long patientId) {
         Patient patient = validatePatient(patientId);
-        AreaResponse area = getPatientArea(patient);
+        List<AreaResponse> areas = getPatientAreas(patient);
         Long guardianCount = guardianRepository.countByPatientId(patient.getId());
-        return PatientInfoResponse.from(patient, area, guardianCount);
+        return PatientInfoResponse.from(patient, areas, guardianCount);
     }
 
     @Override
@@ -46,10 +50,10 @@ public class PatientServiceImpl implements PatientService {
                 .findAllByTenantId(tenantId, pageable)
                 .map(
                         patient -> {
-                            AreaResponse area = getPatientArea(patient);
+                            List<AreaResponse> areas = getPatientAreas(patient);
                             Long guardianCount =
                                     guardianRepository.countByPatientId(patient.getId());
-                            return PatientInfoResponse.from(patient, area, guardianCount);
+                            return PatientInfoResponse.from(patient, areas, guardianCount);
                         });
     }
 
@@ -69,7 +73,8 @@ public class PatientServiceImpl implements PatientService {
         return patient;
     }
 
-    private AreaResponse getPatientArea(Patient patient) {
-        return areaClient.getAreaById(patient.getAdmissionArea());
+    private List<AreaResponse> getPatientAreas(Patient patient) {
+        List<PatientArea> areas = patientAreaRepository.findAllByPatient(patient);
+        return areas.stream().map(area -> areaClient.getAreaById(area.getAreaId())).toList();
     }
 }
