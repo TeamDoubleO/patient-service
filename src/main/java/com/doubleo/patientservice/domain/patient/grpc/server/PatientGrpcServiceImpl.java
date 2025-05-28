@@ -3,7 +3,7 @@ package com.doubleo.patientservice.domain.patient.grpc.server;
 import com.doubleo.patientservice.domain.patient.domain.Patient;
 import com.doubleo.patientservice.domain.patient.dto.response.PatientGrpcResponse;
 import com.doubleo.patientservice.domain.patient.repository.PatientRepository;
-import com.doubleo.patientservice.global.exception.CommonException;
+import com.doubleo.patientservice.global.exception.GrpcExceptionUtil;
 import com.doubleo.patientservice.global.exception.errorcode.PatientErrorCode;
 import com.doubleo.patientservice.global.util.TimeUtil;
 import io.grpc.stub.StreamObserver;
@@ -43,7 +43,8 @@ public class PatientGrpcServiceImpl extends PatientServiceGrpc.PatientServiceImp
                         },
                         () -> {
                             responseObserver.onError(
-                                    new CommonException(PatientErrorCode.PATIENT_NOT_FOUND));
+                                    GrpcExceptionUtil.toStatusRuntimeException(
+                                            PatientErrorCode.PATIENT_NOT_FOUND));
                         });
     }
 
@@ -82,7 +83,8 @@ public class PatientGrpcServiceImpl extends PatientServiceGrpc.PatientServiceImp
                             .build());
             responseObserver.onCompleted();
         } else {
-            responseObserver.onError(new CommonException(PatientErrorCode.PATIENT_NOT_FOUND));
+            responseObserver.onError(
+                    GrpcExceptionUtil.toStatusRuntimeException(PatientErrorCode.PATIENT_NOT_FOUND));
         }
     }
 }
