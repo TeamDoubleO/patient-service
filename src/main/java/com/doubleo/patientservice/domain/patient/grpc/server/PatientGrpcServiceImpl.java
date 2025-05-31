@@ -59,6 +59,7 @@ public class PatientGrpcServiceImpl extends PatientServiceGrpc.PatientServiceImp
                             .setTenantId(p.getTenantId())
                             .setPatientCode(p.getPatientCode())
                             .setName(p.getName())
+                            .setRegNo(p.getRegNo())
                             .setSex(Sex.valueOf(p.getSex().getSex()))
                             .setRegisteredOn(TimeUtil.fromLocalDateTime(p.getRegisteredOn()))
                             .addAllAreas(
