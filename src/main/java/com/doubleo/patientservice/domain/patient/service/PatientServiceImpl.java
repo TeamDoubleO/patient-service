@@ -53,24 +53,19 @@ public class PatientServiceImpl implements PatientService {
     private PatientInfoResponse getPatientInfoResponse(Patient patient) {
         List<AreaResponse> areas = getPatientAreas(patient);
         Long guardianCount = guardianRepository.countByPatientId(patient.getId());
-        List<AreaInfo> areaInfos =
-                areas.stream()
-                        .map(
-                                areaResponse -> {
-                                    String areaFullName;
-                                    try {
-                                        areaFullName =
-                                                areaClient
-                                                        .getAreaFullNameByCode(
-                                                                areaResponse.getTenantId(),
-                                                                areaResponse.getAreaCode())
-                                                        .getAreaFullName();
-                                    } catch (Exception e) {
-                                        areaFullName = "";
-                                    }
-                                    return new AreaInfo(areaResponse.getAreaCode(), areaFullName);
-                                })
-                        .toList();
+        List<AreaInfo> areaInfos = areas.stream()
+                .map(areaResponse -> {
+                    try {
+                        String areaFullName = areaClient
+                                .getAreaFullNameByCode(areaResponse.getTenantId(), areaResponse.getAreaCode())
+                                .getAreaFullName();
+                        return new AreaInfo(areaResponse.getAreaCode(), areaFullName);
+                    } catch (Exception e) {
+                        return null;
+                    }
+                })
+                .filter(areaInfo -> areaInfo != null)
+                .toList();
         return PatientInfoResponse.from(patient, areaInfos, guardianCount);
     }
 
