@@ -56,14 +56,21 @@ public class PatientServiceImpl implements PatientService {
         List<AreaInfo> areaInfos =
                 areas.stream()
                         .map(
-                                areaResponse ->
-                                        new AreaInfo(
-                                                areaResponse.getAreaCode(),
+                                areaResponse -> {
+                                    try {
+                                        String areaFullName =
                                                 areaClient
                                                         .getAreaFullNameByCode(
                                                                 areaResponse.getTenantId(),
                                                                 areaResponse.getAreaCode())
-                                                        .getAreaFullName()))
+                                                        .getAreaFullName();
+                                        return new AreaInfo(
+                                                areaResponse.getAreaCode(), areaFullName);
+                                    } catch (Exception e) {
+                                        return null;
+                                    }
+                                })
+                        .filter(areaInfo -> areaInfo != null)
                         .toList();
         return PatientInfoResponse.from(patient, areaInfos, guardianCount);
     }
