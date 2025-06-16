@@ -8,5 +8,6 @@ public interface PatientService {
 
     PatientInfoResponse getPatientInfo(Long patientId);
 
-    Page<PatientInfoResponse> getPatientListInfo(Pageable pageable);
+    Page<PatientInfoResponse> getPatientListInfo(String keyword, Pageable pageable);
+
 }

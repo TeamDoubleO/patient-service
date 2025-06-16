@@ -42,12 +42,17 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<PatientInfoResponse> getPatientListInfo(Pageable pageable) {
+    public Page<PatientInfoResponse> getPatientListInfo(String keyword, Pageable pageable) {
         String tenantId = TenantContextHolder.getTenantId();
 
-        return patientRepository
-                .findAllByTenantId(tenantId, pageable)
-                .map(this::getPatientInfoResponse);
+        Page<Patient> patients;
+        if (keyword == null || keyword.isBlank()) {
+            patients = patientRepository.findAllByTenantId(tenantId, pageable);
+        } else {
+            patients = patientRepository.findAllByNameContainingAndTenantId(keyword, tenantId, pageable);
+        }
+
+        return patients.map(this::getPatientInfoResponse);
     }
 
     private PatientInfoResponse getPatientInfoResponse(Patient patient) {
@@ -74,6 +79,7 @@ public class PatientServiceImpl implements PatientService {
                         .toList();
         return PatientInfoResponse.from(patient, areaInfos, guardianCount);
     }
+
 
     // util
     private void isPatientWithCodeExists(String patientCode) {
