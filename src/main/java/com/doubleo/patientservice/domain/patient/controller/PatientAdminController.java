@@ -19,8 +19,9 @@ public class PatientAdminController {
 
     @Operation(summary = "환자 정보 조회", description = "환자 정보를 반환합니다.")
     @GetMapping("/paged")
-    public Page<PatientInfoResponse> patientListInfoGet(Pageable pageable) {
-        return patientService.getPatientListInfo(pageable);
+    public Page<PatientInfoResponse> patientListInfoGet(
+            @RequestParam(required = false) String keyword, Pageable pageable) {
+        return patientService.getPatientListInfo(keyword, pageable);
     }
 
     @Operation(summary = "환자 정보 조회", description = "환자 정보를 반환합니다.")
@@ -28,10 +29,4 @@ public class PatientAdminController {
     public PatientInfoResponse patientInfoGet(@PathVariable Long patientId) {
         return patientService.getPatientInfo(patientId);
     }
-
-    //    @Operation(summary = "환자 정보 조회", description = "환자 정보를 반환합니다.")
-    //    @GetMapping("/{patientId}")
-    //    public List<PatientListInfoResponse> getPatientListInfo() {
-    //        return patientService.getPatientListInfo();
-    //    }
 }
