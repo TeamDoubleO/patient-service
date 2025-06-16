@@ -49,7 +49,9 @@ public class PatientServiceImpl implements PatientService {
         if (keyword == null || keyword.isBlank()) {
             patients = patientRepository.findAllByTenantId(tenantId, pageable);
         } else {
-            patients = patientRepository.findAllByNameContainingAndTenantId(keyword, tenantId, pageable);
+            patients =
+                    patientRepository.findAllByNameContainingAndTenantId(
+                            keyword, tenantId, pageable);
         }
 
         return patients.map(this::getPatientInfoResponse);
@@ -79,7 +81,6 @@ public class PatientServiceImpl implements PatientService {
                         .toList();
         return PatientInfoResponse.from(patient, areaInfos, guardianCount);
     }
-
 
     // util
     private void isPatientWithCodeExists(String patientCode) {

@@ -11,12 +11,11 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
 
     Page<Patient> findAllByTenantId(String tenantId, Pageable pageable);
 
-    Page<Patient> findAllByNameContainingAndTenantId(String name, String tenantId, Pageable pageable);
+    Page<Patient> findAllByNameContainingAndTenantId(
+            String name, String tenantId, Pageable pageable);
 
     Optional<Patient> findByTenantIdAndNameAndRegNo(
             String tenantId, String patientName, String patientRegNo);
 
     Optional<Patient> findByTenantIdAndPatientCode(String tenantId, String patientCode);
-
-
 }
